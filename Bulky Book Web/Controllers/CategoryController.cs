@@ -103,6 +103,24 @@ namespace Bulky_Book_Web.Controllers
             return View(categoryFromDb);
         }
 
+		//POST
+		[HttpPost, ActionName("Delete")]
+		[ValidateAntiForgeryToken]
+		public IActionResult DeletePOST(int? id)
+		{
+			var obj = _db.Categories.Find(id);
+			if (obj == null)
+			{
+				return NotFound();
+			}
 
-    }
+			_db.Categories.Remove(obj);
+			_db.SaveChanges();
+			TempData["success"] = "Category deleted successfully";
+			return RedirectToAction("Index");
+
+		}
+
+
+	}
 }
